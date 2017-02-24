@@ -8,6 +8,21 @@ import os.path
 import getopt
 
 
+#reverse a list to make it ccw
+def rev(random = []):
+    return random[::-1]
+
+def checkCounterclockkwise(listThing = [], sum): #make sure you initialize sum to 0
+    for i in range(0, len(listThing)):
+        x = listThing[i+1][0] - listThing[i][0]
+        y = listThing[i][1] + listThing[i+1][1]
+        sum = sum + (x*y)
+        if sum > 0: #if sum is positive, it is clockwise
+            return False
+        else: #if sum is negative, it is counter clockwise
+            return True
+
+
 def main(argv):
     u'''
     Parses command line args and calls appropriate function
@@ -66,9 +81,73 @@ def main(argv):
         print u"Unable to open input file"
         sys.exit(1)
 
-    solve(problemset_file, algorithm, number)
+    calculate_solution(problemset_file, algorithm, number)
 
-def calculate_solution():
+def calculate_solution(problemset_file, algorithm, number):
+    
+     u"""
+    Solves a problem given to it
+    """
+    _parser = parser.input_parser()
+    parsed_string = u"Problems parsed: "
+    u"""
+    Our problems are stored in a map<int, (robots:[point],polygons:[[point]])>
+    """
+    problemset = {}
+
+    for problem in problemset_file:
+        _parser.parse(problem)
+        parsed_string += unicode(_parser.index) + u";"
+        problemset[_parser.index] = (_parser.robots, _parser.polygons)
+        #robots is a list, and polygons in a list of list- which is stored in a tuple- wot
+
+        robotsVis = []
+        robotsPlainList = []
+        polygonsPlain = [] 
+        polygonsVis = []
+        #iterating over all the robots and making them vis point thingies
+        for x in problemset.values():
+            for y in x[0]: #first value in the tuple, which contains list of robots 
+                robotsPlainList.append(y) #add this to a generic robots list just in case
+                newThingy = vis.Point(y[0], y[1]) #hope dis works, because list contains tuples of coordinates
+                robots.append(newThingy)
+        
+        #adding polygons to a random list just for bants
+        for x in problemset.values():
+            for y in x[1]:
+                polygonsPlain.append(y)
+        
+        if(checkCounterclockkwise(polygonsPlain) != True): #reversing the list if the points aren't in counter-clockwise order
+            rev(polygonsPlain)
+        
+        '''for x in polygonsPlain:
+            for y in x:
+                otherNewThingy = vis.Point(y[0], y[1])'''
+
+            
+        
+
+        
+
+
+
+        
+
+
+        
+
+        
+        
+
+        
+
+
+    print parsed_string + u"\nStarting...\n"
+
+    
+
+
+
     # The Ilya Constant (TM)
     epsilon = 0.000000001
 
