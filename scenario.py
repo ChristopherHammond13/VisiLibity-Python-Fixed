@@ -291,13 +291,42 @@ def calculate_solution(problemset_file, algorithm, number):
         awake[robots.index(first_robot)] = first_robot
         robot_paths[robots.index(first_robot)] = [first_robot]
 
-        """ may need to get this checked
+         #may need to get this checked, again
         # get the visibility graph
         try:
-            _vis_graph = graph.vis_graph(i, robots, obstacles)
+             env = vis.Environment(envList)
+             robot1.snap_to_boundary_of(env, epsilon)
+             robot1.snap_to_vertices_of(env, epsilon)
+             robot1 = robotsVis[0]
+             isovist = vis.Visibility_Polygon(robot1, env, epsilon)
+             p.title('Shortest (????) Path')
+
+             p.xlabel('X Position')
+             p.ylabel('Y Position')
+
+             p.plot(wall_x, wall_y, 'black')
+
+             #plots robots from the robotsVis list
+             for x in robotsVis:
+                 p.plot([x.x()], [x.y()], 'go')
+
+             #iterate through list of individual x and y coordinates and plot the obstacles
+             for x,y in zip(singularXcords, singularYcords):
+                 p.plot(x , y , 'r')
+            
+             print "Shortest Path length from observer to end: ", shortest_path.length()
+
+             print "Number of options: ", shortest_path.size()
+             polyline = []
+             for x in range(0, shortest_path.size()):
+                 point = shortest_path.getVertex(x)
+                 print "(", point.x(), ", ", point.y(), ")"
+                 polyline.append(point)
+
+             p.show()
         except ValueError:
-            _vis_graph = None
-        """
+            _vis_graph = None #get this checked as well
+       
 
         # perform simulation
         simulationRunning = True
@@ -331,7 +360,7 @@ def calculate_solution(problemset_file, algorithm, number):
                             next_target = schedule.popleft()
                             claimed[robot_id] = next_target
                             if _vis_graph is not None: #need to change this as well, a lot of the method
-                                min_len = _vis_graph.get_shortest_path_length(
+                                min_len = env.shortest_path(
                                     vg.Point(awake[robot_id][0], awake[robot_id][1]),
                                     vg.Point(next_target[0], next_target[1]))
                             else:
@@ -378,19 +407,19 @@ def calculate_solution(problemset_file, algorithm, number):
                     del claimed[next_robot_id]
 
         
-        #check this function again for visgraph thingies
+        #check this function PROPERLY
         for visited in robot_paths.keys():
             if len(robot_paths[visited]) > 1:
                 full_path = []
-                if _vis_graph is not None:
+                if env is not None:
                     for j in xrange(0, len(robot_paths[visited])-1):
-                        point1 = vg.Point(robot_paths[visited][j][0],
+                        point1 = vis.Point(robot_paths[visited][j][0],
                                           robot_paths[visited][j][1])
-                        point2 = vg.Point(robot_paths[visited][j+1][0],
+                        point2 = vis.Point(robot_paths[visited][j+1][0],
                                           robot_paths[visited][j+1][1])
-                        path_to_add = _vis_graph.get_shortest_path(
+                        path_to_add = env.shortest_path(
                                         point1,
-                                        point2)
+                                        point2, epsilon)
                         for point in path_to_add:
                             full_path.append((point.x, point.y))
                 else:
