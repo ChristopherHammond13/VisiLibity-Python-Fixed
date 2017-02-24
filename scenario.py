@@ -2,7 +2,71 @@ import visilibity as vis
 import pylab as p
 import math
 from utils import parser
+import sys
+from io import open
+import os.path
+import getopt
 
+
+def main(argv):
+    u'''
+    Parses command line args and calls appropriate function
+    '''
+    input_file = u""
+    output_file = u""
+    help_string = u"Usage: main.py -n <number_to-run> -a <algorithm> -i <input_file> -o \
+            <output_file>"
+    
+    try:
+        opts, _ = getopt.getopt(argv, u"hn:a:i:o:", [u"number=", u"algorithm=",
+                                                    u"ifile=", u"ofile="])
+    except getopt.GetoptError:
+        print help_string
+        sys.exit(2)
+
+    algorithm = default_schedule
+    number = 30
+
+    for opt, arg in opts:
+        if opt == u"-h":
+            print help_string
+            sys.exit()
+        elif opt in (u"-n", u"--number"):
+            number = int(arg)
+        elif opt in (u"-a", u"--algorithm"):
+            if arg == u"greedy-claim":
+                algorithm = greedy_claim_schedule
+            elif arg == u"greedy-dynamic":
+                algorithm = greedy_dynamic_schedule
+            else:
+                print u"Algorithm: " + unicode(arg) + u" does not exist, use \
+                      greedy-claim, greedy-dynamic or omit the option \
+                      for the default"
+                sys.exit(1)
+        elif opt in (u"-i", u"--ifile"):
+            input_file = arg
+        elif opt in (u"-o", u"--ofile"):
+            output_file = arg
+
+    if not os.path.isfile(input_file):
+        print u"Input file does not exist"
+        sys.exit(1)
+
+    if output_file == u"":
+        output_file = u"output.mat"
+
+    if os.path.isfile(output_file):
+        print u"Specified output file already exists"
+        sys.exit(1)
+
+    try:
+        problemset_file = open(input_file)
+        print u"Opened " + input_file
+    except IOError:
+        print u"Unable to open input file"
+        sys.exit(1)
+
+    solve(problemset_file, algorithm, number)
 
 def calculate_solution():
     # The Ilya Constant (TM)
