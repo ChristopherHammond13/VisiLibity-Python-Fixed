@@ -22,6 +22,18 @@ def checkCounterclockkwise(listThing = [], sum): #make sure you initialize sum t
         else: #if sum is negative, it is counter clockwise
             return True
 
+def returnXtuples(listThing = []):
+    newListThing = []
+    for x in listThing:
+        newListThing.append(x[0])
+    return newListThing
+
+def returnYtuples(listThing = []):
+    newListThing = []
+    for x in listThing:
+        newListThing.append(x[1])
+    return newListThing
+
 
 def main(argv):
     u'''
@@ -101,49 +113,42 @@ def calculate_solution(problemset_file, algorithm, number):
         problemset[_parser.index] = (_parser.robots, _parser.polygons)
         #robots is a list, and polygons in a list of list- which is stored in a tuple- wot
 
-        robotsVis = [] #robots with vis points assigned already 
-        robotsPlainList = [] #robot coordinates
-        polygonsPlain = [] #polygon coordinates
-        polygonsVis = [] #polygon coordinates with vis points already assigned
-        #iterating over all the robots and making them vis point thingies
-        for x in problemset.values():
-            for y in x[0]: #first value in the tuple, which contains list of robots 
-                robotsPlainList.append(y) #add this to a generic robots list just in case
-                newThingy = vis.Point(y[0], y[1]) #hope dis works, because list contains tuples of coordinates
-                robots.append(newThingy)
+    robotsVis = [] #robots with vis points assigned already 
+    robotsPlainList = [] #robot coordinates
+    polygonsPlain = [] #polygon coordinates
+    polygonsVis = [] #polygon coordinates with vis points already assigned
+    #iterating over all the robots and making them vis point thingies
+    for x in problemset.values():
+        for y in x[0]: #first value in the tuple, which contains list of robots 
+            robotsPlainList.append(y) #add this to a generic robots list just in case
+            newThingy = vis.Point(y[0], y[1]) #hope dis works, because list contains tuples of coordinates
+            robots.append(newThingy)
         
-        #adding polygons to a random list just for bants
-        for x in problemset.values():
-            for y in x[1]:
-                polygonsPlain.append(y)
+    #adding polygons to a random list just for bants
+    for x in problemset.values():
+        for y in x[1]:
+            polygonsPlain.append(y)
         
-        if(checkCounterclockkwise(polygonsPlain) == False): #reversing the list if the points aren't in counter-clockwise order
-            rev(polygonsPlain)
-        
-
-
-        #function to convert polygon coordinates to vis thingies 
-        for x in polygonsPlain:
-            for y in x:
-                otherNewThingy = vis.Point(y[0], y[1])
-                row = []
-                row.append(otherNewThingy)
-                polygonsVis.append(row)
-        
-        
-        #converting every polygon inside list to vis.Polygon 
-        for x in polygonsVis:
-            x = vis.Polygon(x)
-        
+    if(checkCounterclockkwise(polygonsPlain) == False): #reversing the list if the points aren't in counter-clockwise order
+        rev(polygonsPlain)
         
 
-                
 
-                
-                
+    #function to convert polygon coordinates to vis thingies 
+    for x in polygonsPlain:
+        for y in x:
+            otherNewThingy = vis.Point(y[0], y[1])
+            row = []
+            row.append(otherNewThingy)
+            polygonsVis.append(row)
+        
+        
+    #converting every polygon inside list to vis.Polygon 
+    for x in polygonsVis:
+        x = vis.Polygon(x)
+        
+    
 
-
-            
 
     print parsed_string + u"\nStarting...\n"
 
