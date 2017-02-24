@@ -101,10 +101,10 @@ def calculate_solution(problemset_file, algorithm, number):
         problemset[_parser.index] = (_parser.robots, _parser.polygons)
         #robots is a list, and polygons in a list of list- which is stored in a tuple- wot
 
-        robotsVis = []
-        robotsPlainList = []
-        polygonsPlain = [] 
-        polygonsVis = []
+        robotsVis = [] #robots with vis points assigned already 
+        robotsPlainList = [] #robot coordinates
+        polygonsPlain = [] #polygon coordinates
+        polygonsVis = [[]] #polygon coordinates with vis points already assigned
         #iterating over all the robots and making them vis point thingies
         for x in problemset.values():
             for y in x[0]: #first value in the tuple, which contains list of robots 
@@ -117,30 +117,24 @@ def calculate_solution(problemset_file, algorithm, number):
             for y in x[1]:
                 polygonsPlain.append(y)
         
-        if(checkCounterclockkwise(polygonsPlain) != True): #reversing the list if the points aren't in counter-clockwise order
+        if(checkCounterclockkwise(polygonsPlain) == False): #reversing the list if the points aren't in counter-clockwise order
             rev(polygonsPlain)
         
-        '''for x in polygonsPlain:
+
+
+        for x in polygonsPlain:
+            i = -1
+            i += 1
             for y in x:
-                otherNewThingy = vis.Point(y[0], y[1])'''
+                otherNewThingy = vis.Point(y[0], y[1])
+                polygonsVis[i].append(otherNewThingy)
+                
+
+                
+                
+
 
             
-        
-
-        
-
-
-
-        
-
-
-        
-
-        
-        
-
-        
-
 
     print parsed_string + u"\nStarting...\n"
 
