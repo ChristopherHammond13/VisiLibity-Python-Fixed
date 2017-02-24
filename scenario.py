@@ -1,6 +1,8 @@
 import visilibity as vis
 import pylab as p
 import math
+from utils import parser
+
 
 def calculate_solution():
     # The Ilya Constant (TM)
