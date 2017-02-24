@@ -199,6 +199,12 @@ def calculate_solution(problemset_file, algorithm, number):
     #obstacle2_x = [1, 1, 3, 3, 1][::-1]
     #obstacle2_y = [2, 4, 4, 2, 2][::-1]
 
+    """
+    also awks that this doesn't work bc bloody C++ needs all da 
+    parameters- need to fix it at some point 
+    
+    """
+    
     envList = [walls]
     #adds individuals obstacles to list used for the environment
     for x in polygonsVis:
