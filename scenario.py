@@ -272,4 +272,5 @@ def save_print(polygon):
     return end_pos_x, end_pos_y
 
 if __name__ == "__main__":
+    main(sys.argv[1:])
     calculate_solution()
