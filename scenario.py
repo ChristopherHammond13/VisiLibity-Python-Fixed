@@ -8,6 +8,8 @@ import sys
 from io import open
 import os.path
 import getopt
+from collections import deque
+from collections import OrderedDict
 
 def main(argv):
     u'''
