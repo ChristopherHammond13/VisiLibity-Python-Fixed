@@ -73,7 +73,7 @@ def main(argv):
 
 
 #reverse a list to make it ccw
-def rev(random = []):
+def rev(random):
     return random[::-1]
 
 def checkCounterclockwise(listThing): #make sure you initialize sum to 0
@@ -213,6 +213,11 @@ def calculate_solution(problemset_file, algorithm, number):
         envList.append(x)
     
 
+    """
+    error here- it should be vis.Environment(walls, obstacle1, obstacle2) but i'm 
+    trying to pass vis.Environment([walls, [obstacle_Coords]])
+    
+    """
     env = vis.Environment(envList)
 
     robot1.snap_to_boundary_of(env, epsilon)
@@ -223,7 +228,7 @@ def calculate_solution(problemset_file, algorithm, number):
     isovist = vis.Visibility_Polygon(robot1, env, epsilon)
 
     #need to fix these 
-    shortest_path = env.shortest_path(robot1, robot2, epsilon)
+    #shortest_path = env.shortest_path(robot1, robot2, epsilon)
 
     point_x, point_y = save_print(isovist)
 
@@ -314,16 +319,9 @@ def calculate_solution(problemset_file, algorithm, number):
              for x,y in zip(singularXcords, singularYcords):
                  p.plot(x , y , 'r')
             
-             print "Shortest Path length from observer to end: ", shortest_path.length()
-
-             print "Number of options: ", shortest_path.size()
              polyline = []
-             for x in range(0, shortest_path.size()):
-                 point = shortest_path.getVertex(x)
-                 print "(", point.x(), ", ", point.y(), ")"
-                 polyline.append(point)
-
-             p.show()
+             #don't necessaryily need this here
+             #p.show()
         except ValueError:
             _vis_graph = None #get this checked as well
        
