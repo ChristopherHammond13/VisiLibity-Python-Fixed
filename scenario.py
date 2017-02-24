@@ -104,7 +104,7 @@ def calculate_solution(problemset_file, algorithm, number):
         robotsVis = [] #robots with vis points assigned already 
         robotsPlainList = [] #robot coordinates
         polygonsPlain = [] #polygon coordinates
-        polygonsVis = [[]] #polygon coordinates with vis points already assigned
+        polygonsVis = [] #polygon coordinates with vis points already assigned
         #iterating over all the robots and making them vis point thingies
         for x in problemset.values():
             for y in x[0]: #first value in the tuple, which contains list of robots 
@@ -122,12 +122,21 @@ def calculate_solution(problemset_file, algorithm, number):
         
 
 
+        #function to convert polygon coordinates to vis thingies 
         for x in polygonsPlain:
-            i = -1
-            i += 1
             for y in x:
                 otherNewThingy = vis.Point(y[0], y[1])
-                polygonsVis[i].append(otherNewThingy)
+                row = []
+                row.append(otherNewThingy)
+                polygonsVis.append(row)
+        
+        
+        #converting every polygon inside list to vis.Polygon 
+        for x in polygonsVis:
+            x = vis.Polygon(x)
+        
+        
+
                 
 
                 
