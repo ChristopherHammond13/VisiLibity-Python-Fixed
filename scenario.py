@@ -146,9 +146,20 @@ def calculate_solution(problemset_file, algorithm, number):
     #converting every polygon inside list to vis.Polygon 
     for x in polygonsVis:
         x = vis.Polygon(x)
-        
     
+    singularXcords = [] #contains list of individual x cords for obstacles
+    singularYcords = [] #contains list of individual y cords for obstacles
 
+    for x in polygonsPlain:
+        temp = returnXtuples(x)
+        temp2 = returnYtuples(x)
+        tempList = []
+        tempList2 = []
+        tempList.append(temp)
+        tempList2.append(temp2)
+        singularXcords.append(tempList)
+        singularYcords.append(tempList2)
+    
 
     print parsed_string + u"\nStarting...\n"
 
