@@ -12,7 +12,7 @@ import getopt
 def rev(random = []):
     return random[::-1]
 
-def checkCounterclockkwise(listThing, sum): #make sure you initialize sum to 0
+def checkCounterclockwise(listThing, sum): #make sure you initialize sum to 0
     for i in range(0, len(listThing)):
         x = listThing[i+1][0] - listThing[i][0]
         y = listThing[i][1] + listThing[i+1][1]
@@ -129,7 +129,7 @@ def calculate_solution(problemset_file, algorithm, number):
         for y in x[1]:
             polygonsPlain.append(y)
         
-    if(checkCounterclockkwise(polygonsPlain) == False): #reversing the list if the points aren't in counter-clockwise order
+    if(checkCounterclockwise(polygonsPlain) == False): #reversing the list if the points aren't in counter-clockwise order
         rev(polygonsPlain)
         
 
