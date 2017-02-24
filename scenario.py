@@ -12,7 +12,8 @@ import getopt
 def rev(random = []):
     return random[::-1]
 
-def checkCounterclockwise(listThing, sum): #make sure you initialize sum to 0
+def checkCounterclockwise(listThing): #make sure you initialize sum to 0
+    sum = 0
     for i in range(0, len(listThing)):
         x = listThing[i+1][0] - listThing[i][0]
         y = listThing[i][1] + listThing[i+1][1]
@@ -122,14 +123,14 @@ def calculate_solution(problemset_file, algorithm, number):
         for y in x[0]: #first value in the tuple, which contains list of robots 
             robotsPlainList.append(y) #add this to a generic robots list just in case
             newThingy = vis.Point(y[0], y[1]) #hope dis works, because list contains tuples of coordinates
-            robots.append(newThingy)
+            robotsVis.append(newThingy)
         
     #adding polygons to a random list just for bants
     for x in problemset.values():
         for y in x[1]:
             polygonsPlain.append(y)
         
-    if(checkCounterclockwise(polygonsPlain) == False): #reversing the list if the points aren't in counter-clockwise order
+    if(checkCounterclockwise(polygonsPlain) is False): #reversing the list if the points aren't in counter-clockwise order
         rev(polygonsPlain)
         
 
@@ -271,6 +272,17 @@ def save_print(polygon):
 
     return end_pos_x, end_pos_y
 
+def default_schedule(problem):
+    """
+    Default schedule algorithm
+    """
+    _schedule = deque()
+    # print(str(problem))
+    for robot in problem[0]:
+        # print("Adding " + str(robot))
+        _schedule.append(robot)
+
+    return _schedule
+
 if __name__ == "__main__":
     main(sys.argv[1:])
-    calculate_solution()
