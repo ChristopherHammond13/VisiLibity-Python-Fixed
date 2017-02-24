@@ -2,3 +2,5 @@ venv/
 ._*
 .idea/
 .vscode/
+*.pyc
+

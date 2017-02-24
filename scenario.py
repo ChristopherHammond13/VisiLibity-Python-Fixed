@@ -12,7 +12,7 @@ import getopt
 def rev(random = []):
     return random[::-1]
 
-def checkCounterclockkwise(listThing = [], sum): #make sure you initialize sum to 0
+def checkCounterclockkwise(listThing, sum): #make sure you initialize sum to 0
     for i in range(0, len(listThing)):
         x = listThing[i+1][0] - listThing[i][0]
         y = listThing[i][1] + listThing[i+1][1]
@@ -22,13 +22,13 @@ def checkCounterclockkwise(listThing = [], sum): #make sure you initialize sum t
         else: #if sum is negative, it is counter clockwise
             return True
 
-def returnXtuples(listThing = []):
+def returnXtuples(listThing):
     newListThing = []
     for x in listThing:
         newListThing.append(x[0])
     return newListThing
 
-def returnYtuples(listThing = []):
+def returnYtuples(listThing):
     newListThing = []
     for x in listThing:
         newListThing.append(x[1])
@@ -96,8 +96,8 @@ def main(argv):
     calculate_solution(problemset_file, algorithm, number)
 
 def calculate_solution(problemset_file, algorithm, number):
-    
-     u"""
+
+    u"""
     Solves a problem given to it
     """
     _parser = parser.input_parser()
@@ -163,10 +163,6 @@ def calculate_solution(problemset_file, algorithm, number):
 
     print parsed_string + u"\nStarting...\n"
 
-    
-
-
-
     # The Ilya Constant (TM)
     epsilon = 0.000000001
 
@@ -191,24 +187,33 @@ def calculate_solution(problemset_file, algorithm, number):
     #obstacle_x = [1, 1, 5, 5, 3, 3, 4, 4, 2, 2, 6, 6, 0, 0, 1][::-1]
     #obstacle_y = [6, 1, 1, 5, 5, 3, 3, 2, 2, 6, 6, 0, 0, 6, 6][::-1]
 
-    robot1 = vis.Point(0, 1)
-    robot2 = vis.Point(6, 2)
+    #robot1 = vis.Point(0, 1)
+    #robot2 = vis.Point(6, 2)
 
-    obstacle = vis.Polygon([vis.Point(8,1),vis.Point(4,1),vis.Point(4,4),vis.Point(5,2), vis.Point(8,1)])
-    obstacle_x = [8, 4, 4, 5, 8]
-    obstacle_y = [1, 1, 4, 2, 1]
+    #obstacle = vis.Polygon([vis.Point(8,1),vis.Point(4,1),vis.Point(4,4),vis.Point(5,2), vis.Point(8,1)])
+    #obstacle_x = [8, 4, 4, 5, 8]
+    #obstacle_y = [1, 1, 4, 2, 1]
 
-    obstacle2 = vis.Polygon([vis.Point(1,2), vis.Point(1,4), vis.Point(3,4), vis.Point(3,2), vis.Point(1,2)][::-1])
-    obstacle2_x = [1, 1, 3, 3, 1][::-1]
-    obstacle2_y = [2, 4, 4, 2, 2][::-1]
+    #obstacle2 = vis.Polygon([vis.Point(1,2), vis.Point(1,4), vis.Point(3,4), vis.Point(3,2), vis.Point(1,2)][::-1])
+    #obstacle2_x = [1, 1, 3, 3, 1][::-1]
+    #obstacle2_y = [2, 4, 4, 2, 2][::-1]
 
-    env = vis.Environment([walls, obstacle, obstacle2])
+    envList = [walls]
+    #adds individuals obstacles to list used for the environment
+    for x in polygonsVis:
+        envList.append(x)
+    
+
+    env = vis.Environment(envList)
 
     robot1.snap_to_boundary_of(env, epsilon)
     robot1.snap_to_vertices_of(env, epsilon)
 
+    robot1 = robotsVis[0]
+
     isovist = vis.Visibility_Polygon(robot1, env, epsilon)
 
+    #need to fix these 
     shortest_path = env.shortest_path(robot1, robot2, epsilon)
 
     point_x, point_y = save_print(isovist)
@@ -223,12 +228,20 @@ def calculate_solution(problemset_file, algorithm, number):
 
     p.plot(wall_x, wall_y, 'black')
 
-    p.plot([robot1.x()], [robot1.y()], 'go')
+    #plots robots from the robotsVis list
+    for x in robotsVis:
+        p.plot([x.x()], [x.y()], 'go')
 
-    p.plot([robot2.x()], [robot2.y()], 'go')
+    #p.plot([robot1.x()], [robot1.y()], 'go')
 
-    p.plot(obstacle_x, obstacle_y, 'r')
-    p.plot(obstacle2_x, obstacle2_y, 'r')
+    #p.plot([robot2.x()], [robot2.y()], 'go')
+
+    #iterate through list of individual x and y coordinates and plot the obstacles
+    for x,y in zip(singularXcords, singularYcords):
+        p.plot(x , y , 'r')
+
+    #p.plot(obstacle_x, obstacle_y, 'r')
+    #p.plot(obstacle2_x, obstacle2_y, 'r')
     
     print "Shortest Path length from observer to end: ", shortest_path.length()
 
