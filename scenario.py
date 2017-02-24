@@ -14,7 +14,7 @@ def rev(random = []):
 
 def checkCounterclockwise(listThing): #make sure you initialize sum to 0
     sum = 0
-    for i in range(0, len(listThing)):
+    for i in range(0, len(listThin)):
         x = listThing[i+1][0] - listThing[i][0]
         y = listThing[i][1] + listThing[i+1][1]
         sum = sum + (x*y)
@@ -116,7 +116,7 @@ def calculate_solution(problemset_file, algorithm, number):
 
     robotsVis = [] #robots with vis points assigned already 
     robotsPlainList = [] #robot coordinates
-    polygonsPlain = [] #polygon coordinates
+    polygonsPlain = [] #polygon coordinates, nested list btw
     polygonsVis = [] #polygon coordinates with vis points already assigned
     #iterating over all the robots and making them vis point thingies
     for x in problemset.values():
@@ -129,12 +129,11 @@ def calculate_solution(problemset_file, algorithm, number):
     for x in problemset.values():
         for y in x[1]:
             polygonsPlain.append(y)
-        
-    if(checkCounterclockwise(polygonsPlain) is False): #reversing the list if the points aren't in counter-clockwise order
-        rev(polygonsPlain)
-        
-
-
+    
+    for x in polygonsPlain:
+        if checkCounterclockwise(x):
+            rev(x)
+    
     #function to convert polygon coordinates to vis thingies 
     for x in polygonsPlain:
         for y in x:
