@@ -1,3 +1,5 @@
+from __future__ import division
+from __future__ import absolute_import
 import visilibity as vis
 import pylab as p
 import math
@@ -6,35 +8,6 @@ import sys
 from io import open
 import os.path
 import getopt
-
-
-#reverse a list to make it ccw
-def rev(random = []):
-    return random[::-1]
-
-def checkCounterclockwise(listThing): #make sure you initialize sum to 0
-    sum = 0
-    for i in range(0, len(listThin)):
-        x = listThing[i+1][0] - listThing[i][0]
-        y = listThing[i][1] + listThing[i+1][1]
-        sum = sum + (x*y)
-        if sum > 0: #if sum is positive, it is clockwise
-            return False
-        else: #if sum is negative, it is counter clockwise
-            return True
-
-def returnXtuples(listThing):
-    newListThing = []
-    for x in listThing:
-        newListThing.append(x[0])
-    return newListThing
-
-def returnYtuples(listThing):
-    newListThing = []
-    for x in listThing:
-        newListThing.append(x[1])
-    return newListThing
-
 
 def main(argv):
     u'''
@@ -95,6 +68,34 @@ def main(argv):
         sys.exit(1)
 
     calculate_solution(problemset_file, algorithm, number)
+
+
+#reverse a list to make it ccw
+def rev(random = []):
+    return random[::-1]
+
+def checkCounterclockwise(listThing): #make sure you initialize sum to 0
+    sum = 0
+    for i in range(0, len(listThing)):
+        x = listThing[i+1][0] - listThing[i][0]
+        y = listThing[i][1] + listThing[i+1][1]
+        sum = sum + (x*y)
+        if sum > 0: #if sum is positive, it is clockwise
+            return False
+        else: #if sum is negative, it is counter clockwise
+            return True
+
+def returnXtuples(listThing):
+    newListThing = []
+    for x in listThing:
+        newListThing.append(x[0])
+    return newListThing
+
+def returnYtuples(listThing):
+    newListThing = []
+    for x in listThing:
+        newListThing.append(x[1])
+    return newListThing
 
 def calculate_solution(problemset_file, algorithm, number):
 
@@ -283,5 +284,5 @@ def default_schedule(problem):
 
     return _schedule
 
-if __name__ == "__main__":
+if __name__ == u"__main__":
     main(sys.argv[1:])
